@@ -1,4 +1,4 @@
-const bootbox = require("./bootbox/bootbox.js");
+import bootbox from "./bootbox/bootbox";
 export { 
     DEFAULT_CONTENT_TYPE,
     getAppInfo,
@@ -145,4 +145,4 @@ export {
 } from "./app/pwd.util";
 export { ALPHABETS, NUMERICS, getRandomNumber, random, randomNumber } from "./app/random.util";
 export { Utilities } from "./app/Utilities";
-export { bootbox }
+export { bootbox };

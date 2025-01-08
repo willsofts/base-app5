@@ -1,9 +1,9 @@
 import $ from "jquery"
+import bootbox from "../bootbox/bootbox";
 import { Modal } from "bootstrap";
 import { getMessageCode } from "./msg.util"
 import { getAccessorToken, requestAccessorInfo, getDH } from "./messenger";
 import { getDefaultRawParameters, getDefaultLanguage } from "./app.info";
-const bootbox = require("../bootbox/bootbox.js");
 
 const fs_winary = new Array();
 export function getWindowByName(winname: string) {

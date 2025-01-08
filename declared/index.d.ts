@@ -530,5 +530,5 @@ export declare class Utilities {
      */
     static getFormatWeekDate(date?: Date, fortype?: number, delimiter?: string, forstyle?: number, separater?: string): string;
 }
-declare const _default: "./bootbox/bootbox.js";
-export default _default;
+declare const bootbox: any;
+export { bootbox };
