@@ -34,7 +34,9 @@ export {
     getBaseCss,
     setBaseCss,
     appInit,
-    getMultiLanguagesModel
+    getMultiLanguagesModel,
+    assignAppConfig,
+    loadAppConfig
 } from "./app/app.info";
 export {
     getWindowByName,

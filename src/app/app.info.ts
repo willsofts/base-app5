@@ -1,4 +1,5 @@
 import { bindingChildMessaging, bindingParentMessaging } from "./messenger";
+import { createLinkStyle } from "./app.util";
 const appInfo = {
 	DEFAULT_LANGUAGE : process.env.VUE_APP_DEFAULT_LANGUAGE,
 	API_URL : process.env.VUE_APP_API_URL,
@@ -78,4 +79,29 @@ export function getMultiLanguagesModel(datas:any) {
     let multilangs = datas || getMultiLanguages();
     if(!multilangs) multilangs = ["EN","TH"];
     return multilangs.map((item:any) => { return {lang: item, label: item+"_lang"} });
+}
+export function assignAppConfig(data:any,callback?:Function) {
+	console.log("assignAppConfig:",data);
+	if(!data) return;
+	if(data.API_URL !== undefined) setApiUrl(data.API_URL);
+	if(data.BASE_URL !== undefined) setBaseUrl(data.BASE_URL);
+	if(data.CDN_URL !== undefined) setCdnUrl(data.CDN_URL);
+	if(data.IMG_URL !== undefined) setImgUrl(data.IMG_URL);
+	if(data.DEFAULT_LANGUAGE !== undefined) setDefaultLanguage(data.DEFAULT_LANGUAGE);
+	if(data.API_TOKEN !== undefined) setApiToken(data.API_TOKEN);
+	if(data.BASE_STORAGE !== undefined) setBaseStorage(data.BASE_STORAGE);
+	if(data.SECURE_STORAGE !== undefined) setSecureStorage(data.SECURE_STORAGE);
+	if(data.BASE_CSS !== undefined) setBaseCss(data.BASE_CSS);
+	if(data.CHAT_URL !== undefined) setChatUrl(data.CHAT_URL);
+	if(data.MULTI_LANGUAGES !== undefined) setMultiLanguages(data.MULTI_LANGUAGES);
+	if(data.DEFAULT_RAW_PARAMETERS !== undefined) setDefaultRawParameters(data.DEFAULT_RAW_PARAMETERS);
+	console.info("appConfig: DEFAULT_LANGUAGE="+getDefaultLanguage(),", BASE_STORAGE="+getBaseStorage(),", DEFAULT_RAW_PARAMETERS="+getDefaultRawParameters(),", SECURE_STORAGE="+isSecureStorage());
+	console.info("appConfig: API_URL="+getApiUrl(),", BASE_URL="+getBaseUrl(),", CDN_URL="+getCdnUrl(),", IMG_URL="+getImgUrl()+", BASE_CSS="+getBaseCss()+", CHAT_URL="+getChatUrl()+", MULTI_LANGUAGES="+getMultiLanguages());
+	createLinkStyle(getBaseCss());
+	if(callback) callback(data);
+}
+export function loadAppConfig(callback?:Function, url:string = "../config/app.config.json") {
+	fetch(url).then(response => response.json()).then(data => {
+		assignAppConfig(data,callback);
+	}).catch(err => { console.error(err); if(callback) callback(); });
 }

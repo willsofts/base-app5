@@ -1,4 +1,4 @@
-import { getApiUrl, getBaseUrl, getCdnUrl, getImgUrl, getDefaultLanguage, getApiToken, getBaseStorage, setApiUrl, setBaseUrl, setCdnUrl, setImgUrl, setDefaultLanguage, setApiToken, getDefaultRawParameters, setBaseStorage, isSecureStorage, setSecureStorage, getBaseCss, setBaseCss, getChatUrl, setChatUrl, getMultiLanguages, setMultiLanguages } from "./app.info";
+import { getApiUrl, getBaseUrl, getCdnUrl, getImgUrl, getDefaultLanguage, getApiToken, getBaseStorage, setApiUrl, setBaseUrl, setCdnUrl, setImgUrl, setDefaultLanguage, setApiToken, getDefaultRawParameters, setBaseStorage, isSecureStorage, setSecureStorage, getBaseCss, setBaseCss, getChatUrl, setChatUrl, getMultiLanguages, setMultiLanguages, loadAppConfig } from "./app.info";
 import { createLinkStyle } from "./app.util";
 import { DH } from "./dh";
 import SecureLS from 'secure-ls';
@@ -143,7 +143,9 @@ export function handleRequestMessage(data: any) {
         console.info("handleRequestMessage: API_TOKEN="+getApiToken()); 
         createLinkStyle(getBaseCss());       
     }
-    if(messagingCallback && data.archetype=="willsofts") messagingCallback(data);
+    if(messagingCallback && data.archetype=="willsofts") {
+        loadAppConfig(() => { if(messagingCallback) messagingCallback(data); });
+    }
 }
 export function setupDiffie(json: any) {
 	console.log("setupDiffie",getAccessorToken());
