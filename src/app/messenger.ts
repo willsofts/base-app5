@@ -1,4 +1,4 @@
-import { getApiUrl, getBaseUrl, getCdnUrl, getImgUrl, getDefaultLanguage, getApiToken, getBaseStorage, setApiUrl, setBaseUrl, setCdnUrl, setImgUrl, setDefaultLanguage, setApiToken, getDefaultRawParameters, setBaseStorage, isSecureStorage, setSecureStorage, getBaseCss, setBaseCss, getChatUrl, setChatUrl, getMultiLanguages, setMultiLanguages, loadAppConfig } from "./app.info";
+import { getApiUrl, getBaseUrl, getCdnUrl, getImgUrl, getDefaultLanguage, getApiToken, getBaseStorage, setApiUrl, setBaseUrl, setCdnUrl, setImgUrl, setDefaultLanguage, setApiToken, getDefaultRawParameters, setBaseStorage, isSecureStorage, setSecureStorage, getBaseCss, setBaseCss, getChatUrl, setChatUrl, getMultiLanguages, setMultiLanguages, loadAppConfig, getTokenKey, setTokenKey } from "./app.info";
 import { createLinkStyle } from "./app.util";
 import { DH } from "./dh";
 import SecureLS from 'secure-ls';
@@ -67,6 +67,15 @@ export function getAccessorToken() {
 	if(token && token!="") return token;
     return "";
 }
+export function getAccessTokenKey() {
+    let json = getAccessorInfo();
+    if(json && json.tokenkey) {
+        return json.tokenkey;
+    }
+    let token = getTokenKey();
+	if(token && token!="") return token;
+    return "";
+}
 export function saveAccessorInfo(json: any) {
 	setStorage("accessorinfo",JSON.stringify(json));
 }
@@ -77,7 +86,7 @@ export function sendMessageInterface(win: any) {
     let moderator = win?"opener":"parent";
 	let info = getAccessorInfo();
     let options = getStorage("accessoptions");
-	let msg = {type: "storage", archetype: "willsofts", moderator: moderator, API_URL: getApiUrl(), BASE_URL: getBaseUrl(), CDN_URL: getCdnUrl(), IMG_URL: getImgUrl(), DEFAULT_LANGUAGE: getDefaultLanguage(), API_TOKEN: getApiToken(), BASE_STORAGE: getBaseStorage(), SECURE_STORAGE: isSecureStorage(), BASE_CSS: getBaseCss(), CHAT_URL: getChatUrl(), MULTI_LANGUAGES: getMultiLanguages(), accessorinfo: info, accessoptions: options};
+	let msg = {type: "storage", archetype: "willsofts", moderator: moderator, API_URL: getApiUrl(), BASE_URL: getBaseUrl(), CDN_URL: getCdnUrl(), IMG_URL: getImgUrl(), DEFAULT_LANGUAGE: getDefaultLanguage(), API_TOKEN: getApiToken(), BASE_STORAGE: getBaseStorage(), SECURE_STORAGE: isSecureStorage(), BASE_CSS: getBaseCss(), CHAT_URL: getChatUrl(), MULTI_LANGUAGES: getMultiLanguages(), TOKEN_KEY: getTokenKey(), accessorinfo: info, accessoptions: options};
 	return sendMessageToFrame(msg,win);
 }
 export function sendMessageToFrame(data: any,win: any) {
@@ -122,6 +131,7 @@ export function sendMessageToOpener(data: any) {
 export function handleRequestMessage(data: any) {
     if(data.type=="storage") {
         console.log("handleRequestMessage: data",data);
+        if(data.TOKEN_KEY !== undefined) setTokenKey(data.TOKEN_KEY);
         if(data.API_URL !== undefined) setApiUrl(data.API_URL);
         if(data.BASE_URL !== undefined) setBaseUrl(data.BASE_URL);
         if(data.CDN_URL !== undefined) setCdnUrl(data.CDN_URL);

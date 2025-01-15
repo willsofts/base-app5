@@ -13,6 +13,7 @@ const appInfo = {
 	SECURE_STORAGE : process.env.VUE_APP_SECURE_STORAGE == "true",
 	BASE_CSS : process.env.VUE_APP_BASE_CSS,
 	MULTI_LANGUAGES : ["EN","TH"],
+	TOKEN_KEY : process.env.VUE_APP_TOKEN_KEY,
 };
 var APP_MULTI_LANGUAGES = process.env.VUE_APP_MULTI_LANGUAGES;
 if(APP_MULTI_LANGUAGES && APP_MULTI_LANGUAGES.trim().length>0) {
@@ -55,6 +56,8 @@ export function setSecureStorage(value: boolean) { appInfo.SECURE_STORAGE = valu
 export function isSecureStorage() { return appInfo.SECURE_STORAGE; }
 export function getBaseCss() { return appInfo.BASE_CSS; }
 export function setBaseCss(value: string) { appInfo.BASE_CSS = value; }
+export function getTokenKey() { return appInfo.TOKEN_KEY; }
+export function setTokenKey(value: string) { appInfo.TOKEN_KEY = value; }
 var default_labels : Array<any> = [];
 var program_labels : Array<any> = [];
 var program_message : Array<any> = [];
@@ -74,6 +77,7 @@ export function appInit(settings = {program_message,default_labels,program_label
 	} else if(setting.listen_messaging=='parent') {
 		bindingParentMessaging();
 	}
+	initConfigure();
 }
 export function getMultiLanguagesModel(datas:any) {
     let multilangs = datas || getMultiLanguages();
@@ -83,6 +87,7 @@ export function getMultiLanguagesModel(datas:any) {
 export function assignAppConfig(data:any,callback?:Function) {
 	console.log("assignAppConfig:",data);
 	if(!data) return;
+	if(data.TOKEN_KEY !== undefined) setTokenKey(data.TOKEN_KEY);
 	if(data.API_URL !== undefined) setApiUrl(data.API_URL);
 	if(data.BASE_URL !== undefined) setBaseUrl(data.BASE_URL);
 	if(data.CDN_URL !== undefined) setCdnUrl(data.CDN_URL);
@@ -97,11 +102,23 @@ export function assignAppConfig(data:any,callback?:Function) {
 	if(data.DEFAULT_RAW_PARAMETERS !== undefined) setDefaultRawParameters(data.DEFAULT_RAW_PARAMETERS);
 	console.info("appConfig: DEFAULT_LANGUAGE="+getDefaultLanguage(),", BASE_STORAGE="+getBaseStorage(),", DEFAULT_RAW_PARAMETERS="+getDefaultRawParameters(),", SECURE_STORAGE="+isSecureStorage());
 	console.info("appConfig: API_URL="+getApiUrl(),", BASE_URL="+getBaseUrl(),", CDN_URL="+getCdnUrl(),", IMG_URL="+getImgUrl()+", BASE_CSS="+getBaseCss()+", CHAT_URL="+getChatUrl()+", MULTI_LANGUAGES="+getMultiLanguages());
+	console.info("appConfig: API_TOKEN="+getApiToken()); 
 	createLinkStyle(getBaseCss());
 	if(callback) callback(data);
 }
 export function loadAppConfig(callback?:Function, url:string = "../config/app.config.json") {
+	initConfigure();
 	fetch(url).then(response => response.json()).then(data => {
 		assignAppConfig(data,callback);
-	}).catch(err => { console.error(err); if(callback) callback(); });
+	}).catch(() => { if(callback) callback(); });
+}
+export function initConfigure() {
+	let key = "TOKEN_KEY";
+	let token = localStorage.getItem(key);
+	if(!token || token.trim().length==0) token = sessionStorage.getItem(key);
+	if(token) setTokenKey(token);
+	const searchParams = new URLSearchParams(window.location.href);
+	token = searchParams.get("fsKey");
+	if(!token || token.trim().length==0) token = searchParams.get("tokenkey");
+	if(token) setTokenKey(token);
 }

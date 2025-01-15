@@ -2,7 +2,7 @@ import $ from "jquery"
 import bootbox from "../bootbox/bootbox";
 import { Modal } from "bootstrap";
 import { getMessageCode } from "./msg.util"
-import { getAccessorToken, requestAccessorInfo, getDH } from "./messenger";
+import { getAccessorToken, requestAccessorInfo, getDH, getAccessTokenKey } from "./messenger";
 import { getDefaultRawParameters, getDefaultLanguage } from "./app.info";
 
 const fs_winary = new Array();
@@ -390,7 +390,8 @@ export function serializeParameters(parameters?: any, addonParameters?: any, raw
 	console.log("serialize: parameters",JSON.stringify(parameters));
 	console.log("serialize: jsondata",JSON.stringify(jsondata));
 	let token = getAccessorToken();
-	let headers = { "authtoken" : token, "data-type": cipherdata?"json/cipher":"", language: getDefaultLanguage() || "EN" };
+	let key = getAccessTokenKey();
+	let headers = { "authtoken" : token, "tokenkey": key, "data-type": cipherdata?"json/cipher":"", language: getDefaultLanguage() || "EN" };
 	//console.log("serialize: headers",JSON.stringify(headers));
 	return { cipherdata: cipherdata, jsondata: JSON.stringify(jsondata), jsonobject: jsondata, headers : headers };
 }

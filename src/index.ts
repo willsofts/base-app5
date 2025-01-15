@@ -33,10 +33,13 @@ export {
     setProgramLabels,
     getBaseCss,
     setBaseCss,
+    getTokenKey,
+    setTokenKey,
     appInit,
     getMultiLanguagesModel,
     assignAppConfig,
-    loadAppConfig
+    loadAppConfig,
+    initConfigure
 } from "./app/app.info";
 export {
     getWindowByName,
@@ -117,6 +120,7 @@ export {
     removeStorage,
     getAccessorInfo,
     getAccessorToken,
+    getAccessTokenKey,
     saveAccessorInfo,
     removeAccessorInfo,
     sendMessageInterface,

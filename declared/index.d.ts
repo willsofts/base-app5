@@ -1,4 +1,3 @@
-
 /* app.info */
 export declare const DEFAULT_CONTENT_TYPE = "application/json; charset=UTF-8";
 export declare function getAppInfo(): {
@@ -14,6 +13,7 @@ export declare function getAppInfo(): {
     SECURE_STORAGE: boolean;
     BASE_CSS: string | undefined;
     MULTI_LANGUAGES: string[];
+    TOKEN_KEY: string | undefined;
 };
 export declare function registerNotification(callback: Function): void;
 export declare function getMultiLanguages(): string[];
@@ -40,6 +40,8 @@ export declare function setSecureStorage(value: boolean): void;
 export declare function isSecureStorage(): boolean;
 export declare function getBaseCss(): string | undefined;
 export declare function setBaseCss(value: string): void;
+export declare function getTokenKey(): string | undefined;
+export declare function setTokenKey(value: string): void;
 export declare function getProgramMessage(): Array<any>;
 export declare function getDefaultLabels(): Array<any>;
 export declare function getProgramLabels(): Array<any>;
@@ -55,6 +57,7 @@ export declare function appInit(settings?: {
 export declare function getMultiLanguagesModel(datas: any): any;
 export declare function assignAppConfig(data: any, callback?: Function): void;
 export declare function loadAppConfig(callback?: Function, url?: string): void;
+export declare function initConfigure(): void;
 
 /* app.util */
 export declare function getWindowByName(winname: string): any;
@@ -103,6 +106,7 @@ export declare function serializeParameters(parameters?: any, addonParameters?: 
     jsonobject: any;
     headers: {
         authtoken: any;
+        tokenkey: any;
         "data-type": string;
         language: string | undefined;
     };
@@ -221,6 +225,7 @@ export declare function setStorage(key: string, value: string): void;
 export declare function removeStorage(key: string): void;
 export declare function getAccessorInfo(): any;
 export declare function getAccessorToken(): any;
+export declare function getAccessTokenKey(): any;
 export declare function saveAccessorInfo(json: any): void;
 export declare function removeAccessorInfo(): void;
 export declare function sendMessageInterface(win: any): boolean;
