@@ -58,6 +58,7 @@ export declare function getMultiLanguagesModel(datas: any): any;
 export declare function assignAppConfig(data: any, callback?: Function): void;
 export declare function loadAppConfig(callback?: Function, url?: string): void;
 export declare function initConfigure(): void;
+export declare function initAppConfig(callback?: Function): void;
 
 /* app.util */
 export declare function getWindowByName(winname: string): any;

@@ -122,3 +122,8 @@ export function initConfigure() {
 	if(!token || token.trim().length==0) token = searchParams.get("tokenkey");
 	if(token) setTokenKey(token);
 }
+export function initAppConfig(callback?:Function) {
+	try {
+		assignAppConfig((window as any).getAppConfigs(),callback);
+	} catch(ex) { console.error(ex); }
+}
