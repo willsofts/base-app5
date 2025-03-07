@@ -39,7 +39,8 @@ export {
     getMultiLanguagesModel,
     assignAppConfig,
     loadAppConfig,
-    initConfigure
+    initConfigure,
+    initAppConfig
 } from "./app/app.info";
 export {
     getWindowByName,
