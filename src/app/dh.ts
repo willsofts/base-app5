@@ -1,5 +1,6 @@
 import $ from "jquery";
 import { getApiUrl } from "./app.info";
+import { getRequestID } from "./app.util";
 import { getAccessorInfo } from "./messenger";
 import CryptoJS from "crypto-js";
 import BigInteger from "bigi";
@@ -109,14 +110,19 @@ export class DH {
 		return "";
 	}
 	
+	public getRequestID() {
+		return getRequestID();
+	}
+
 	public requestPublicKey(dh?: DH, callback?: Function, aurl?: string) {
 		if(!aurl) aurl = getApiUrl()+"/api/crypto/dh";
 		let authtoken = this.getAccessorToken();
+		let requestid = this.getRequestID();
 		$.ajax({
 			url: aurl,
 			type: "POST",
 			dataType: "json",
-			headers : { "authtoken": authtoken },
+			headers : { "authtoken": authtoken, "x-request-id": requestid },
 			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 			error : (transport,status,errorThrown) => {
 				console.log(errorThrown);
@@ -140,6 +146,7 @@ export class DH {
 	public submitPublicKey(callback?: Function, aurl?: string) {
 		if(!aurl) aurl = getApiUrl()+"/api/crypto/dh";
 		let authtoken = this.getAccessorToken();
+		let requestid = this.getRequestID();
 		$.ajax({
 			url: aurl,
 			type: "POST",
@@ -147,7 +154,7 @@ export class DH {
 				publickey: this.publicKey
 			},
 			dataType: "json",
-			headers : { "authtoken": authtoken },
+			headers : { "authtoken": authtoken, "x-request-id": requestid },
 			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 			error : (transport,status,errorThrown) => {
 				console.log(errorThrown);
@@ -163,6 +170,7 @@ export class DH {
 	public updatePublicKey(callback?: Function, aurl?: string) {
 		if(!aurl) aurl = getApiUrl()+"/api/crypto/update";
 		let authtoken = this.getAccessorToken();
+		let requestid = this.getRequestID();
 		$.ajax({
 			url: aurl,
 			type: "POST",
@@ -170,7 +178,7 @@ export class DH {
 				publickey: this.publicKey
 			},
 			dataType: "json",
-			headers : { "authtoken": authtoken },
+			headers : { "authtoken": authtoken, "x-request-id": requestid },
 			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 			error : (transport,status,errorThrown) => {
 				console.log(errorThrown);

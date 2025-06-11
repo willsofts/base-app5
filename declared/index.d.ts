@@ -14,6 +14,7 @@ export declare function getAppInfo(): {
     BASE_CSS: string | undefined;
     MULTI_LANGUAGES: string[];
     TOKEN_KEY: string | undefined;
+    META_INFO: any;
 };
 export declare function registerNotification(callback: Function): void;
 export declare function getMultiLanguages(): string[];
@@ -42,6 +43,8 @@ export declare function getBaseCss(): string | undefined;
 export declare function setBaseCss(value: string): void;
 export declare function getTokenKey(): string | undefined;
 export declare function setTokenKey(value: string): void;
+export declare function getMetaInfo(): any;
+export declare function setMetaInfo(value?: any): void;
 export declare function getProgramMessage(): Array<any>;
 export declare function getDefaultLabels(): Array<any>;
 export declare function getProgramLabels(): Array<any>;
@@ -115,6 +118,8 @@ export declare function serializeParameters(parameters?: any, addonParameters?: 
 export declare function decryptCipherData(headers: any, data: any): any;
 export declare function createLinkStyle(css_url?: string): void;
 export declare function disableControls(): void;
+export declare function generateUUID(): string;
+export declare function getRequestID(): string;
 
 /* ctrl.util */
 export declare function getControlClasses(attrClass: string, ...classes: string[]): string;
@@ -155,6 +160,7 @@ export declare class DH {
     requestGenerator(callback?: Function, aurl?: string): void;
     getAccessorInfo(): any;
     getAccessorToken(): any;
+    getRequestID(): string;
     requestPublicKey(dh?: DH, callback?: Function, aurl?: string): void;
     submitPublicKey(callback?: Function, aurl?: string): void;
     updatePublicKey(callback?: Function, aurl?: string): void;

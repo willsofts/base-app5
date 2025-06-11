@@ -14,6 +14,7 @@ const appInfo = {
 	BASE_CSS : process.env.VUE_APP_BASE_CSS,
 	MULTI_LANGUAGES : ["EN","TH"],
 	TOKEN_KEY : process.env.VUE_APP_TOKEN_KEY,
+	META_INFO : {} as any,
 };
 var APP_MULTI_LANGUAGES = process.env.VUE_APP_MULTI_LANGUAGES;
 if(APP_MULTI_LANGUAGES && APP_MULTI_LANGUAGES.trim().length>0) {
@@ -58,6 +59,8 @@ export function getBaseCss() { return appInfo.BASE_CSS; }
 export function setBaseCss(value: string) { appInfo.BASE_CSS = value; }
 export function getTokenKey() { return appInfo.TOKEN_KEY; }
 export function setTokenKey(value: string) { appInfo.TOKEN_KEY = value; }
+export function getMetaInfo() { return appInfo.META_INFO; }
+export function setMetaInfo(value: any = {}) { appInfo.META_INFO = value; }
 var default_labels : Array<any> = [];
 var program_labels : Array<any> = [];
 var program_message : Array<any> = [];
@@ -100,9 +103,10 @@ export function assignAppConfig(data:any,callback?:Function) {
 	if(data.CHAT_URL !== undefined) setChatUrl(data.CHAT_URL);
 	if(data.MULTI_LANGUAGES !== undefined) setMultiLanguages(data.MULTI_LANGUAGES);
 	if(data.DEFAULT_RAW_PARAMETERS !== undefined) setDefaultRawParameters(data.DEFAULT_RAW_PARAMETERS);
+	if(data.META_INFO !== undefined) setMetaInfo(data.META_INFO);
 	console.info("appConfig: DEFAULT_LANGUAGE="+getDefaultLanguage(),", BASE_STORAGE="+getBaseStorage(),", DEFAULT_RAW_PARAMETERS="+getDefaultRawParameters(),", SECURE_STORAGE="+isSecureStorage());
 	console.info("appConfig: API_URL="+getApiUrl(),", BASE_URL="+getBaseUrl(),", CDN_URL="+getCdnUrl(),", IMG_URL="+getImgUrl()+", BASE_CSS="+getBaseCss()+", CHAT_URL="+getChatUrl()+", MULTI_LANGUAGES="+getMultiLanguages());
-	console.info("appConfig: API_TOKEN="+getApiToken()); 
+	console.info("appConfig: API_TOKEN="+getApiToken(),", META_INFO=",getMetaInfo()); 
 	createLinkStyle(getBaseCss());
 	if(callback) callback(data);
 }

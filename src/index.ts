@@ -35,6 +35,8 @@ export {
     setBaseCss,
     getTokenKey,
     setTokenKey,
+    getMetaInfo,
+    setMetaInfo,
     appInit,
     getMultiLanguagesModel,
     assignAppConfig,
@@ -86,7 +88,9 @@ export {
     serializeParameters,
     decryptCipherData,
     createLinkStyle,
-    disableControls
+    disableControls,
+    generateUUID,
+    getRequestID
 } from "./app/app.util";
 export { 
     getControlClasses,
