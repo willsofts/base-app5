@@ -86,7 +86,7 @@ export function sendMessageInterface(win: any) {
     let moderator = win?"opener":"parent";
 	let info = getAccessorInfo();
     let options = getStorage("accessoptions");
-	let msg = {type: "storage", archetype: "willsofts", moderator: moderator, API_URL: getApiUrl(), BASE_URL: getBaseUrl(), CDN_URL: getCdnUrl(), IMG_URL: getImgUrl(), DEFAULT_LANGUAGE: getDefaultLanguage(), API_TOKEN: getApiToken(), BASE_STORAGE: getBaseStorage(), SECURE_STORAGE: isSecureStorage(), BASE_CSS: getBaseCss(), CHAT_URL: getChatUrl(), MULTI_LANGUAGES: getMultiLanguages(), TOKEN_KEY: getTokenKey(), accessorinfo: info, accessoptions: options};
+	let msg = {type: "storage", archetype: "willsofts", moderator: moderator, API_URL: getApiUrl(), BASE_URL: getBaseUrl(), CDN_URL: getCdnUrl(), IMG_URL: getImgUrl(), DEFAULT_LANGUAGE: getDefaultLanguage(), API_TOKEN: getApiToken(), BASE_STORAGE: getBaseStorage(), SECURE_STORAGE: isSecureStorage(), BASE_CSS: getBaseCss(), CHAT_URL: getChatUrl(), MULTI_LANGUAGES: getMultiLanguages(), TOKEN_KEY: getTokenKey(), META_INFO: getMetaInfo(), accessorinfo: info, accessoptions: options};
 	return sendMessageToFrame(msg,win);
 }
 export function sendMessageToFrame(data: any,win: any) {
