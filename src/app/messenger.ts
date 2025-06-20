@@ -1,4 +1,4 @@
-import { getApiUrl, getBaseUrl, getCdnUrl, getImgUrl, getDefaultLanguage, getApiToken, getBaseStorage, setApiUrl, setBaseUrl, setCdnUrl, setImgUrl, setDefaultLanguage, setApiToken, getDefaultRawParameters, setBaseStorage, isSecureStorage, setSecureStorage, getBaseCss, setBaseCss, getChatUrl, setChatUrl, getMultiLanguages, setMultiLanguages, loadAppConfig, getTokenKey, setTokenKey, getMetaInfo, setMetaInfo } from "./app.info";
+import { getApiUrl, getBaseUrl, getCdnUrl, getImgUrl, getDefaultLanguage, getApiToken, getBaseStorage, setApiUrl, setBaseUrl, setCdnUrl, setImgUrl, setDefaultLanguage, setApiToken, getDefaultRawParameters, setBaseStorage, isSecureStorage, setSecureStorage, getBaseCss, setBaseCss, getChatUrl, setChatUrl, getMultiLanguages, setMultiLanguages, initConfigure, getTokenKey, setTokenKey, getMetaInfo, setMetaInfo } from "./app.info";
 import { createLinkStyle } from "./app.util";
 import { DH } from "./dh";
 import SecureLS from 'secure-ls';
@@ -93,8 +93,20 @@ export function sendMessageToFrame(data: any,win: any) {
     if(!data) return false;
     try {
 		console.log("sendMessageToFrame:",data);
-        if(!win) win = document.getElementsByTagName('iframe')[0].contentWindow;    
-        if(win) win.postMessage(JSON.stringify(data), "*");	
+        data.archetype = "willsofts";
+        //if(!win) win = document.getElementsByTagName('iframe')[0].contentWindow;    
+        if(win) {
+            win.postMessage(JSON.stringify(data), "*");	
+        } else {
+            let frames = document.getElementsByTagName('iframe');
+            console.log("frames:",frames);
+            if(frames) {
+                for(let fr of frames) {
+                    let awin = fr.contentWindow;
+                    if(awin) awin.postMessage(JSON.stringify(data), "*");	
+                }
+            }
+        }
         return true;
     } catch(ex) { console.log(ex); }
     return false;
@@ -155,7 +167,10 @@ export function handleRequestMessage(data: any) {
         createLinkStyle(getBaseCss());       
     }
     if(messagingCallback && data.archetype=="willsofts") {
-        loadAppConfig(() => { if(messagingCallback) messagingCallback(data); });
+        if(data.type=="storage") {
+            try { initConfigure(); } catch(ex) { console.error(ex); }
+        }
+        messagingCallback(data);
     }
 }
 export function setupDiffie(json: any) {
