@@ -221,6 +221,9 @@ export declare function getLabel(name: string, defaultLabel: string, lang?: stri
 export declare function getLabelItem(name: string, lang: string, label_category: Array<any>): any;
 export declare function getLabelObject(lang: string | undefined, label_category: Array<any>): any;
 export declare function getLabelModel(lang?: string | undefined): any;
+export declare function mergeProgramLabels(data_labels: any): void;
+export declare function loadAndMergeLabel(id: string, callback?: Function, loadLabel?: boolean, url?: string): void;
+export declare function fetchLabel(id: string, callback: Function, url?: string): void;
 
 /* messenger */
 export declare function getSecureEngine(): any;

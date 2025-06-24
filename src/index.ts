@@ -115,7 +115,15 @@ export {
 } from "./app/ctrl.util";
 export { DH } from "./app/dh";
 export { KnMask } from "./app/KnMask";
-export { getLabel, getLabelItem, getLabelObject, getLabelModel } from "./app/label.util"
+export { 
+    getLabel, 
+    getLabelItem, 
+    getLabelObject, 
+    getLabelModel, 
+    mergeProgramLabels,
+    loadAndMergeLabel,
+    fetchLabel 
+} from "./app/label.util"
 export {
     setMessagingCallback,
     setCurrentWindow,
