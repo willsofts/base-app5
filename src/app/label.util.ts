@@ -56,8 +56,13 @@ export function getLabelModel(lang = getDefaultLanguage()) {
     return Object.assign(default_model, program_model);
 }
 
-export function mergeProgramLabels(data_labels:any) {
-    if(!data_labels) return;
+export function getApiLabel() {
+    return getApiUrl() + (getMetaInfo().API_LABEL || "/api/label/fetch");
+}
+
+export function mergeProgramLabels(data_labels:any) : boolean {
+    if(!data_labels) return false;
+    if(!Array.isArray(data_labels) || data_labels.length <= 0) return false;
     let program_labels = getProgramLabels();
     for(let data of data_labels) {
         let lang = data.language;
@@ -67,21 +72,20 @@ export function mergeProgramLabels(data_labels:any) {
             lang_item.label = [...new Map(concat_labels.map(item => [item.name, item])).values()];
         }
     }
+    return true;
 }
 
-export function loadAndMergeLabel(id: string, callback?: Function, loadLabel = String(getMetaInfo()?.loadLabel)=="true", url = getApiUrl()+"/api/label/find") {
+export function loadAndMergeLabel(id: string, callback?: Function, loadLabel = String(getMetaInfo()?.LOAD_LABEL)=="true", url = getApiLabel()) {
     if(!loadLabel) return;
-    //verify labeid with suffix .xml or not, coz db stored it as xxx.xml
-    if(id.indexOf(".xml")<0) id = id+".xml";
     fetchLabel(id,function(success:boolean,data:any) {
         if(success) {
-            mergeProgramLabels(data.body);
+            let merged = mergeProgramLabels(data.body);
+            if(merged && callback) callback(true,data);
         }
-        if(callback) callback(success,data);
     },url);
 }
 
-export function fetchLabel(id: string, callback: Function, url = getApiUrl()+"/api/label/find") {
+export function fetchLabel(id: string, callback: Function, url = getApiLabel()) {
     console.log("fetchLabel:",id);
 	let authtoken = getAccessorToken();
 	$.ajax({
@@ -93,7 +97,7 @@ export function fetchLabel(id: string, callback: Function, url = getApiUrl()+"/a
 		contentType: DEFAULT_CONTENT_TYPE,
 		error : function(transport,status,errorThrown) {
 			console.error(errorThrown);
-			if(callback) callback(false,errorThrown);
+			if(callback) callback(false,errorThrown,transport);
 		},
 		success: function(data) {
 			if(callback) callback(true,data);

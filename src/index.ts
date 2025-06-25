@@ -119,7 +119,8 @@ export {
     getLabel, 
     getLabelItem, 
     getLabelObject, 
-    getLabelModel, 
+    getLabelModel,
+    getApiLabel, 
     mergeProgramLabels,
     loadAndMergeLabel,
     fetchLabel 
