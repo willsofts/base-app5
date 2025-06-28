@@ -1,6 +1,7 @@
 import $ from "jquery";
 import { getDefaultLanguage, getDefaultLabels, getProgramLabels, getApiUrl, DEFAULT_CONTENT_TYPE, getMetaInfo } from "./app.info";
-import { getAccessorToken } from "./messenger";
+import { getAccessorToken, getStorage, setStorage } from "./messenger";
+import { loadAndMergeMessageCode } from "./msg.util";
 
 export function getLabel(name: string, defaultLabel: string, lang = getDefaultLanguage()) {
     let result = undefined;
@@ -75,17 +76,29 @@ export function mergeProgramLabels(data_labels:any) : boolean {
     return true;
 }
 
-export function loadAndMergeLabel(id: string, callback?: Function, loadLabel = String(getMetaInfo()?.LOAD_LABEL)=="true", url = getApiLabel()) {
+export function loadAndMergeLabel(id: string, callback?: Function, loadLabel: boolean = String(getMetaInfo()?.LOAD_LABEL)=="true", url: string = getApiLabel()) {
+    loadAndMergeProgramLabel(id,callback,loadLabel,url);
+    loadAndMergeMessageCode();
+}
+
+export function loadAndMergeProgramLabel(id: string, callback?: Function, loadLabel: boolean = String(getMetaInfo()?.LOAD_LABEL)=="true", url: string = getApiLabel()) {
     if(!loadLabel) return;
+    let label_cached = getStorage(id);
+    if(label_cached) {
+        let merged = mergeProgramLabels(label_cached);
+        if(merged && callback) callback(true,label_cached);
+        return;
+    }
     fetchLabel(id,function(success:boolean,data:any) {
         if(success) {
+            setStorage(id,data.body);
             let merged = mergeProgramLabels(data.body);
-            if(merged && callback) callback(true,data);
+            if(merged && callback) callback(true,data.body);
         }
     },url);
 }
 
-export function fetchLabel(id: string, callback: Function, url = getApiLabel()) {
+export function fetchLabel(id: string, callback: Function, url: string = getApiLabel()) {
     console.log("fetchLabel:",id);
 	let authtoken = getAccessorToken();
 	$.ajax({

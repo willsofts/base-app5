@@ -174,7 +174,7 @@ export function successbox(callback?: Function, params?: any) {
 }
 export function warningbox(errcode: string,callback?: Function,params?: any) {
 	let title = getMessageCode("fswarn",undefined,"Warning");
-	alertbox(errcode,callback,undefined,params,undefined,title,"fa fa-exclamation-circle");
+	alertbox(errcode,callback,undefined,params,undefined,title,"fas fa fa-exclamation-circle");
 }
 export function alertbox(errcode: string, callback?: Function, defaultmsg?: string, params?: any, addonmsg?: string, title?: string, icon?: string) {
 	if(!title || title.trim().length==0) title = getMessageCode("fsalert",undefined,"Alert");
@@ -194,13 +194,14 @@ export function alertbox(errcode: string, callback?: Function, defaultmsg?: stri
 export function alertDialog(msg?: string, callbackfn?: Function, title="Alert", icon="fa fa-bell-o fas fa-bell") {
 	if(!msg) { console.log("alertDialog: msg undefined"); return; }
 	try {
-		let fs_okbtn = getMessageCode("fsokbtn"); if(!fs_okbtn || (fs_okbtn=="" || fs_okbtn=="fsokbtn")) fs_okbtn = "OK";
+		let fs_okbtn = getMessageCode("fsokbtn",undefined,"OK"); 
 		bootbox.alert({
 			title: "<em class='"+icon+"'></em>&nbsp;<label>"+title+"</label>",
 			message: msg,
 			callback: function() {
 				if (callbackfn) callbackfn();
 			},
+			backdrop: false,
 			buttons: {
 				ok:  { label: fs_okbtn }
 			}    		
@@ -228,8 +229,8 @@ export function confirmbox(errcode: string, okFn?: Function, cancelFn?: Function
 }
 export function confirmDialog(msg?: string, okCallback?: Function, cancelCallback?: Function, title="Confirmation", icon="fas fa fa-question-circle") {
 	try {
-		let fs_confirmbtn = getMessageCode("fsconfirmbtn"); if(!fs_confirmbtn || (fs_confirmbtn=="" || fs_confirmbtn=="fsconfirmbtn")) fs_confirmbtn = "OK";
-		let fs_cancelbtn = getMessageCode("fscancelbtn"); if(!fs_cancelbtn || (fs_cancelbtn=="" || fs_cancelbtn=="fscancelbtn")) fs_cancelbtn = "Cancel";
+		let fs_confirmbtn = getMessageCode("fsconfirmbtn",undefined,"OK"); 
+		let fs_cancelbtn = getMessageCode("fscancelbtn",undefined,"Cancel"); 
 		bootbox.confirm({
 			title: "<em class='"+icon+"'></em>&nbsp;<label>"+title+"</label>",
 			message: msg as string, 
@@ -240,6 +241,7 @@ export function confirmDialog(msg?: string, okCallback?: Function, cancelCallbac
 					if (cancelCallback) cancelCallback();
 				}
 			},
+			backdrop: false,
 			swapButtonOrder: true,
 			buttons: {
 				confirm : { label: fs_confirmbtn },
@@ -456,4 +458,7 @@ export function getRequestID() : string {
 		fs_requestid = generateUUID();
 	}
 	return fs_requestid;
+}
+export function resetRequestID() {
+	fs_requestid = null;
 }

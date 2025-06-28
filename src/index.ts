@@ -90,7 +90,8 @@ export {
     createLinkStyle,
     disableControls,
     generateUUID,
-    getRequestID
+    getRequestID,
+    resetRequestID
 } from "./app/app.util";
 export { 
     getControlClasses,
@@ -123,6 +124,7 @@ export {
     getApiLabel, 
     mergeProgramLabels,
     loadAndMergeLabel,
+    loadAndMergeProgramLabel,
     fetchLabel 
 } from "./app/label.util"
 export {
@@ -148,7 +150,14 @@ export {
     bindingChildMessaging,
     bindingParentMessaging    
 } from "./app/messenger";
-export { getMessageCode, replaceString } from "./app/msg.util";
+export { 
+    getMessageCode, 
+    replaceString,
+    mergeMessageCodes,
+    getApiMessageCode,
+    loadAndMergeMessageCode,
+    fetchMessageCode 
+} from "./app/msg.util";
 export { Paging, DEFAULT_PAGE_SETTINGS } from "./app/Paging";
 export { DEFAULT_PERMITS, Permission, getPermitModel, loadPermissions } from "./app/permit.util";
 export { 
